@@ -8,6 +8,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 
@@ -107,6 +108,44 @@ public static SessionFactory factory = HibernateSession.factory;
 	         object.setName(role.getName().trim());
 	         object.setAmmountMembers(role.getAmmountMembers());
 			 session.update(object); 
+	         tx.commit();
+	      } catch (HibernateException e) {
+	         if (tx!=null) tx.rollback();
+	         e.printStackTrace(); 
+	      } finally {
+	         session.close(); 
+	      }
+	}
+	
+	// --------------- METHOD TO DELETE AN EXISTING ROLE -------------------- //
+	
+	public void deleteRole(Integer roleID, Integer newRoleID) {
+		
+		int oldRoleAmmount = 0;
+		Session session = factory.openSession();
+	    Transaction tx = null;
+	      
+	      try {
+	         tx = session.beginTransaction();
+	         String hql = "SELECT ammountMembers FROM Roles WHERE id = :id";
+	         Query query = session.createQuery(hql);
+	         query.setParameter("id", roleID);
+	         oldRoleAmmount = Integer.parseInt(query.getSingleResult().toString());
+	         
+	         String SQL = "UPDATE Role SET role_members = role_members + :ammountMembers WHERE id = :id";
+	         NativeQuery actualizacion = session.createSQLQuery(SQL);
+	         actualizacion.setParameter("ammountMembers", oldRoleAmmount);
+	         actualizacion.setParameter("id", newRoleID);
+	         actualizacion.executeUpdate();
+	         
+	         SQL = "UPDATE User SET usr_role = :newID WHERE usr_role = :oldID";
+	         actualizacion = session.createSQLQuery(SQL);
+	         actualizacion.setParameter("newID", newRoleID);
+	         actualizacion.setParameter("oldID", roleID);
+	         actualizacion.executeUpdate();
+	         
+	         Roles deleteObject = (Roles) session.get(Roles.class, roleID); 
+			 session.delete(deleteObject); 
 	         tx.commit();
 	      } catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();

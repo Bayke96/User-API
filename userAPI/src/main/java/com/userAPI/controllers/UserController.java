@@ -31,11 +31,12 @@ public class UserController {
 	// ------------------- REST API CALL TO GET ALL USERS ---------------------------- //
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> getUsers(HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<Object> getUsers(HttpServletResponse response) {
 		
 		response.addHeader("Date", new Date().toString());
 		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
 	    response.setHeader("Pragma","no-cache");
+	    response.setHeader("Version","User-API V-1.0");
 	    response.setDateHeader("Expires", 0);
 	    
 		return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
@@ -44,12 +45,12 @@ public class UserController {
 	// ------------------- REST API CALL TO GET AN USER ---------------------------- //
 	
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> getUser(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable("id") int id) {
+	public ResponseEntity<Object> getUser(HttpServletResponse response, @PathVariable("id") int id) {
 		
 		response.addHeader("Date", new Date().toString());
 		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
 	    response.setHeader("Pragma","no-cache");
+	    response.setHeader("Version","User-API V-1.0");
 	    response.setDateHeader("Expires", 0);
 	    
 		return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
@@ -64,6 +65,7 @@ public class UserController {
 		response.addHeader("Date", new Date().toString());
 		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
 	    response.setHeader("Pragma","no-cache");
+	    response.setHeader("Version","User-API V-1.0");
 	    response.setDateHeader("Expires", 0);
 		
 		boolean result = userService.verifyPassword(principal.getName(), pass.trim());
@@ -83,6 +85,7 @@ public class UserController {
 		response.addHeader("Date", new Date().toString());
 		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
 	    response.setHeader("Pragma","no-cache");
+	    response.setHeader("Version","User-API V-1.0");
 	    response.setDateHeader("Expires", 0);
 		
 		return new ResponseEntity<>("User created", HttpStatus.CREATED);
@@ -91,12 +94,12 @@ public class UserController {
 	// ------------------- REST API CALL TO UPDATE AN EXISTING USER ---------------------------- //
 	
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> updateUser(HttpServletRequest request, HttpServletResponse response, 
-			@PathVariable("id") int id, User user) { 
+	public ResponseEntity<Object> updateUser(HttpServletResponse response, @PathVariable("id") int id, User user) { 
 		
 		response.addHeader("Date", new Date().toString());
 		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
 	    response.setHeader("Pragma","no-cache");
+	    response.setHeader("Version","User-API V-1.0");
 	    response.setDateHeader("Expires", 0);
 		
 		userService.updateUser(id, user);
@@ -106,12 +109,12 @@ public class UserController {
 	// ------------------- REST API CALL TO DELETE AN EXISTING USER ---------------------------- //
 	
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> deleteUser(HttpServletRequest request, HttpServletResponse response, 
-			@PathVariable("id") int id) { 
+	public ResponseEntity<Object> deleteUser(HttpServletResponse response, @PathVariable("id") int id) { 
 		
 		response.addHeader("Date", new Date().toString());
 		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
 	    response.setHeader("Pragma","no-cache");
+	    response.setHeader("Version","User-API V-1.0");
 	    response.setDateHeader("Expires", 0);
 		
 		userService.deleteUser(id);

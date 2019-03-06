@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,11 +30,12 @@ public class RoleController {
 	// ------------------- REST API CALL TO GET ALL ROLE ---------------------------- //
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> getRoles(HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<Object> getRoles(HttpServletResponse response) {
 		
 		response.addHeader("Date", new Date().toString());
 		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
 	    response.setHeader("Pragma","no-cache");
+	    response.setHeader("Version","User-API V-1.0");
 	    response.setDateHeader("Expires", 0);
 	    
 		return new ResponseEntity<>(roleService.getRoles(), HttpStatus.OK);
@@ -42,12 +44,12 @@ public class RoleController {
 	// ------------------- REST API CALL TO GET A ROLE ---------------------------- //
 	
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> getRole(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable("id") int id) {
+	public ResponseEntity<Object> getRole(HttpServletResponse response, @PathVariable("id") int id) {
 		
 		response.addHeader("Date", new Date().toString());
 		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
 	    response.setHeader("Pragma","no-cache");
+	    response.setHeader("Version","User-API V-1.0");
 	    response.setDateHeader("Expires", 0);
 		
 		return new ResponseEntity<>(roleService.getRole(id), HttpStatus.OK);
@@ -65,6 +67,7 @@ public class RoleController {
 		response.addHeader("Date", new Date().toString());
 		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
 	    response.setHeader("Pragma","no-cache");
+	    response.setHeader("Version","User-API V-1.0");
 	    response.setDateHeader("Expires", 0);
 		
 		return new ResponseEntity<>("Role created", HttpStatus.CREATED);
@@ -73,16 +76,32 @@ public class RoleController {
 	// ------------------- REST API CALL TO UPDATE AN EXISTING ROLE ---------------------------- //
 	
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> updateRole(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable("id") int id, Roles role) { 
+	public ResponseEntity<Object> updateRole(HttpServletResponse response, @PathVariable("id") int id, Roles role) { 
 		
 		response.addHeader("Date", new Date().toString());
 		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
 	    response.setHeader("Pragma","no-cache");
+	    response.setHeader("Version","User-API V-1.0");
 	    response.setDateHeader("Expires", 0);
 		
 		roleService.updateRole(id, role);
 		return new ResponseEntity<>("Role updated", HttpStatus.OK);
+	}
+	
+	// ------------------- REST API CALL TO DELETE AN EXISTING ROLE ---------------------------- //
+	
+	@DeleteMapping(value = "/{oldid}/{newid}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> deleteRole(HttpServletResponse response,
+			@PathVariable("oldid") int oldID, @PathVariable("newid") int newID) { 
+		
+		response.addHeader("Date", new Date().toString());
+		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
+	    response.setHeader("Pragma","no-cache");
+	    response.setHeader("Version","User-API V-1.0");
+	    response.setDateHeader("Expires", 0);
+		
+		roleService.deleteRole(oldID, newID);
+		return new ResponseEntity<>("Role deleted", HttpStatus.OK);
 	}
 
 }
