@@ -25,7 +25,7 @@ import com.userAPI.services.RoleService;
 @RequestMapping("/roles")
 public class RoleController {
 	
-	RoleService roleService = new RoleService();
+	private RoleService roleService = new RoleService();
 	
 	// ------------------- REST API CALL TO GET ALL ROLE ---------------------------- //
 	
