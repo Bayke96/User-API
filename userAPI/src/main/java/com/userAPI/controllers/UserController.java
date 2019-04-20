@@ -26,7 +26,7 @@ import com.userAPI.services.UserService;
 @RequestMapping("/users")
 public class UserController {
 	
-	UserService userService = new UserService();
+	private UserService userService = new UserService();
 	
 	// ------------------- REST API CALL TO GET ALL USERS ---------------------------- //
 	
