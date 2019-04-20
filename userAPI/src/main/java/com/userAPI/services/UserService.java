@@ -105,8 +105,7 @@ public class UserService {
 		if(verifyPassword(email, oldPass) == false) {
 			System.out.println("Incorrect Password!");
 			return;
-		}
-		if(verifyPassword(email, oldPass) == true) {
+		} else {
 			
 			if(newPass.length() < 8) {
 				 System.out.println("The new password must contain at least 8 characters!");
